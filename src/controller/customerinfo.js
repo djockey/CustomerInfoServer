@@ -24,9 +24,17 @@ module.exports = class extends Base {
 
 	async listAction() {
 		let customerInfoDAO = this.mongo("c_userinfo");
+		let sd = new Date(this.get('startDate'));
+		sd.setHours(0);
+		sd.setMinutes(0);
+		sd.setSeconds(0);
+		let ed = new Date(this.get('endDate'));
+		ed.setHours(23);
+		ed.setMinutes(59);
+		ed.setSeconds(59);
 		let data = await customerInfoDAO.listUserInfo({
-			startDate: new Date(this.get('startDate')),
-			endDate: new Date(this.get('endDate'))
+			startDate: sd,
+			endDate: ed
 		});
 		this.header('Access-Control-Allow-Origin', this.header('origin') || '*');
 		this.header('Access-Control-Allow-Headers', 'Content-Type,x-requested-with');
